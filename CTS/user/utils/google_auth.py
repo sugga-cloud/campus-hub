@@ -1,15 +1,19 @@
+import os
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import Flow
 from googleapiclient.discovery import build
 from django.conf import settings
-from CTS.google_oauth_settings import (
-    GOOGLE_OAUTH2_CLIENT_ID,
-    GOOGLE_OAUTH2_CLIENT_SECRET,
-    GOOGLE_OAUTH2_SCOPES
-)
+
+# ✅ Read credentials directly from environment
+GOOGLE_OAUTH2_CLIENT_ID = os.getenv("GOOGLE_OAUTH2_CLIENT_ID")
+GOOGLE_OAUTH2_CLIENT_SECRET = os.getenv("GOOGLE_OAUTH2_CLIENT_SECRET")
+GOOGLE_OAUTH2_SCOPES = os.getenv("GOOGLE_OAUTH2_SCOPES", "https://www.googleapis.com/auth/drive").split(",")
 
 def create_oauth_flow(redirect_uri, state=None):
     """Create OAuth 2.0 flow instance to manage the OAuth 2.0 Authorization Grant Flow."""
+    if not GOOGLE_OAUTH2_CLIENT_ID or not GOOGLE_OAUTH2_CLIENT_SECRET:
+        raise EnvironmentError("Google OAuth2 credentials not found in environment variables.")
+
     flow = Flow.from_client_config(
         {
             "web": {
@@ -25,6 +29,7 @@ def create_oauth_flow(redirect_uri, state=None):
     )
     return flow
 
+
 def credentials_from_dict(credentials_dict):
     """Create OAuth 2.0 credentials from dictionary."""
     if not credentials_dict:
@@ -38,6 +43,7 @@ def credentials_from_dict(credentials_dict):
         scopes=credentials_dict.get('scopes'),
     )
 
+
 def credentials_to_dict(credentials):
     """Convert OAuth 2.0 credentials to dictionary for storage."""
     return {
@@ -46,12 +52,14 @@ def credentials_to_dict(credentials):
         'scopes': credentials.scopes,
     }
 
+
 def get_google_drive_service(credentials_dict):
     """Build and return Google Drive API service using stored credentials."""
     credentials = credentials_from_dict(credentials_dict)
     if not credentials:
         return None
     return build('drive', 'v3', credentials=credentials)
+
 
 def create_cts_root_folder(service):
     """Create CTS root folder in user's Google Drive if it doesn't exist."""
@@ -61,13 +69,13 @@ def create_cts_root_folder(service):
         spaces='drive',
         fields='files(id, name)'
     ).execute()
-    
+
     existing_folders = results.get('files', [])
-    
+
     if existing_folders:
         # Return existing folder ID
         return existing_folders[0]['id']
-    
+
     # Create new CTS folder
     folder_metadata = {
         'name': 'CTS',
@@ -77,5 +85,5 @@ def create_cts_root_folder(service):
         body=folder_metadata,
         fields='id'
     ).execute()
-    
+
     return folder.get('id')
