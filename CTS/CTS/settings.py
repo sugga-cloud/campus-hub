@@ -45,7 +45,7 @@ SECRET_KEY = 'django-insecure-x^=bxt$9rl2_!)6v)$9p(16ec_-t194kushg9gye!$rkskw&q0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1','https://campus-hub-6k38.onrender.com']
 
 
 # Application definition
@@ -153,6 +153,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8080",
     "http://localhost:5173",  # Vite default port
     "http://127.0.0.1:5173",
+    "https://campus-hub-6k38.onrender.com"
 ]
 
 # CORS settings
