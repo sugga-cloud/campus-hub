@@ -153,6 +153,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8080",
     "http://localhost:5173",  # Vite default port
     "http://127.0.0.1:5173",
+    "https://educus.netlify.app",
     "https://campus-hub-6k38.onrender.com"
 ]
 
@@ -188,7 +189,7 @@ CORS_EXPOSE_HEADERS = [
 ]
 
 # Frontend URL for OAuth callback
-FRONTEND_URL = "http://localhost:8080"
+FRONTEND_URL = "https://educus.netlify.app"
 
 
 # Static files (CSS, JavaScript, Images)
