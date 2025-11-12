@@ -14,7 +14,7 @@ from course.models import Course
 User = get_user_model()
 
 # Your API key
-YOUTUBE_API_KEY = "key"
+YOUTUBE_API_KEY = "AIzaSyCVzn4_qd6cWAFXE9Qz7soM3vao1gs-5d8"
 
 SEARCH_TERMS = [
     "python full course tutorial",
