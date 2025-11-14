@@ -156,7 +156,7 @@ def make_file_shareable(service, file_id, user=None, anyone=True, email=None, ro
 
         try:
             ShareLink.objects.create(
-                node_id=file_id,
+                file_id=file_id,
                 created_by=user,
             )
         except DriveNode.DoesNotExist:
