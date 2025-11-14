@@ -9,4 +9,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Hit server
-        run: curl -s https://campus-hub-6k38.onrender.com/healthz > /dev/null
+        run: curl -s https://campus-hub-6k38.onrender.com//healthz > /dev/null
